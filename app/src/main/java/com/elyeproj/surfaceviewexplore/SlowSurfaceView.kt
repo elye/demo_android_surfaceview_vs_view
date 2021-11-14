@@ -5,9 +5,7 @@ import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class SlowSurfaceView @JvmOverloads constructor(
         context: Context,
@@ -37,7 +35,7 @@ class SlowSurfaceView @JvmOverloads constructor(
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         doAnimate = true
-        job = GlobalScope.launch {
+        job = CoroutineScope(Dispatchers.Default).launch {
             while (doAnimate && isAttachedToWindow) {
                 synchronized(holder) {
                     val canvas = holder.lockCanvas()
